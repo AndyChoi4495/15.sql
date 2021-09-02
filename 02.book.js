@@ -1,5 +1,3 @@
-// npm i express lodash numeral moment dotenv ejs cors mysql2 sequelize passport uuid multer http-errors express-session helmet morgan
-
 /*************** global init **************/
 require('dotenv').config()
 const port = process.env.PORT
@@ -24,9 +22,9 @@ app.use('/', express.static(path.join(__dirname, 'public')))
 
 
 /*************** router init **************/
-const sqlRouter = require('./routes/sql')
+const bookRouter = require('./routes/book')
 
-app.use('/sql', sqlRouter)
+app.use('/book', bookRouter)
 
 
 /**************** error init **************/

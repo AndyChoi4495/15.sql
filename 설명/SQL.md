@@ -4,7 +4,7 @@
 - [환경변수설정](https://dog-developers.tistory.com/21)
 
 ```bash
-mysql -u root -p******
+mysql -uroot -p******
 mysqlsh
 ```
 - MySQL Shell을 오픈
@@ -73,4 +73,12 @@ CREATE TABLE `users`
 	`info` TEXT NULL,
 	`createdAt` DATETIME NOT NULL DEFAULT NOW(),
 	ADD PRIMARY KEY (`idx`);
+```
+
+### 새로운 계정 생성 및 데이터베이스의 권한 적용
+```sql
+CREATE user 'sample'@'%' IDENTIFIED BY '000000';
+ALTER user 'sample'@'%' IDENTIFIED WITH mysql_native_password BY '000000';
+GRANT ALL PRIVILEGES ON sample.* TO 'sample'@'%';
+FLUSH PRIVILEGES;
 ```
