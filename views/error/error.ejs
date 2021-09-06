@@ -23,9 +23,8 @@
 			<div class="msg-wp">
 				<div>ERROR <%= status %></div>
 				<% 
-				const msg = message.split('^^')
-				const desc = (!msg[1] == undefined || msg[1] == '' || msg[1] == 'undefined') ? msg[0] : msg[0]
-
+				const msg = message.split('^^') 
+				const desc = (!msg[1] ||msg[1] == undefined || msg[1] == '' || msg[1] == 'undefined') ? msg[0] : msg[1];
 				%> 
 				<div><%= msg[0] %></div>
 			</div>
