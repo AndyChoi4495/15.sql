@@ -2,7 +2,7 @@
 <%- include('../inc/header') %> 
 <div class="form-wrapper wrapper">
 	<%- include('../inc/title-book', { title, description }) %> 
-	<form action="/book" method="POST" name="saveForm">
+	<form action="/book" method="POST" name="saveForm" enctype="multipart/form-data">
 		<% if(book) { %>
 			<input type="hidden" name="_method" value="PUT">
 			<input type="hidden" name="idx" value="<%= book.idx %>">
@@ -30,7 +30,13 @@
 				<tr>
 					<td class="title">도서 커버 이미지</td>
 					<td class="content">
-						<input type="file" name="cover" class="form-control-file" placeholder="도서커버이미지">
+						<input type="file" name="cover" class="form-control-file">
+					</td>
+				</tr>
+				<tr>
+					<td class="title">첨부 파일</td>
+					<td class="content">
+						<input type="file" name="upfile" class="form-control-file">
 					</td>
 				</tr>
 			</tbody>

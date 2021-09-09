@@ -2,15 +2,25 @@ const express = require('express')
 const router = express.Router()
 const { error } = require('../../modules/util')
 const { pool } = require('../../modules/mysql-init')
+const uploader = require('../../middlewares/multer-book-mw')
 
-router.post('/', async (req, res, next) => {
+router.post('/', uploader.fields([{name: 'cover'}, {name: 'upfile'}]), async (req, res, next) => {
+	let sql, values
 	try {
 		const { title, writer, content } = req.body
-		const sql = 'INSERT INTO books SET title=?, writer=?, content=?'
-		const values = [title, writer, content]
+		sql = 'INSERT INTO books SET title=?, writer=?, content=?'
+		values = [title, writer, content]
 		const [rs] = await pool.execute(sql, values)
-		if(rs.affectedRows === 1) res.redirect('/book')
-		else next(error(500, '데이터가 저장되지 않았습니다.'))
+
+		if(req.files) { // 첨부파일이 존재함
+			for(let [k, [v]] of Object.entries(req.files)) {
+				let { originalname, filename, mimetype, size } = v
+				sql = 'INSERT INTO files SET fidx=?, oriname=?, savename=?, mimetype=?, size=?, fieldname=?'
+				values = [rs.insertId, originalname, filename, mimetype, size, k.substr(0, 1).toUpperCase()]
+				await pool.execute(sql, values)
+			}
+		}
+		res.redirect('/book')
 	}
 	catch(err) {
 		next(error(500, err))

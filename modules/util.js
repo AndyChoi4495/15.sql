@@ -38,4 +38,22 @@ const chgStatus = status => {
 	}
 }
 
-module.exports = { error, location, cutTail, chgStatus }
+const imgExt = ['jpg', 'jpeg', 'gif', 'png']
+const mediaExt = ['mp3', 'mp4']
+const docExt = ['ppt', 'pptx', 'xls', 'xlsx', 'doc', 'docx', 'hwp', 'pdf']
+const zipExt = ['zip', 'alz']
+const exts = { imgExt, mediaExt, docExt, zipExt }
+
+const relPath = file => `/uploads/${file.split('_')[0]}/${file}`
+
+const getIcon = file => {
+	const ext = path.extname(file).substr(1)
+	if(imgExt.includes(ext)) return '/img/icons/img.png'
+	if(mediaExt.includes(ext)) return '/img/icons/video.png'
+	if(docExt.includes(ext)) return '/img/icons/doc.png'
+	if(zipExt.includes(ext)) return '/img/icons/zip.png'
+	return ''
+}
+
+
+module.exports = { error, location, cutTail, chgStatus, exts, relPath, getIcon }

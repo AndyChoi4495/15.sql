@@ -9,6 +9,7 @@
 				<th>도서명</th>
 				<th>저자</th>
 				<th>요약설명</th>
+				<th>커버</th>
 				<th>등록일</th>
 				<th>상태</th>
 			</tr>
@@ -17,9 +18,19 @@
 		<% for(let book of books) { %>
 			<tr data-idx="<%= book.idx %>">
 				<td><%= book.idx %></td>
-				<td class="text-left"><%= book.title %></td>
+				<td><%= book.title %></td>
 				<td><%= book.writer %></td>
-				<td class="text-left"><%= book.content %></td>
+				<td class="content-td">
+					<% if(book.icon) { %>
+						<img src="<%= book.icon %>" class="icon">
+					<% } %>&nbsp;
+					<%= book.content %>
+				</td>
+				<td class="cover-td">
+					<% if(book.cover) { %>
+						<img src="<%= book.cover %>" class="cover">
+					<% } %>
+				</td>
 				<td><%= book.createdAt %></td>
 				<td><%= book.status %></td>
 			</tr>
