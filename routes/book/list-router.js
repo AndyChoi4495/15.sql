@@ -7,6 +7,7 @@ const { pool } = require('../../modules/mysql-init')
 const createPager = require('../../modules/pager-init')
 
 router.get(['/', '/:page'], async (req, res, next) => {
+	req.app.locals.PAGE = 'LIST'
 	let sql, values;
 	try {
 		// console.time('start')
@@ -34,12 +35,11 @@ router.get(['/', '/:page'], async (req, res, next) => {
 			v.cover = v.cover ? relPath(v.cover) : null
 			v.icon = v.icon ? getIcon(v.icon) : null
 		})
-		const title = '도서 목록'
-		const description = '등록된 도서들의 리스트 입니다.'
+		
 		const js = 'book/list'
 		const css = 'book/list'
 		// console.timeEnd('start')
-		res.status(200).render('book/list', { title, description, js, css, books, pager })
+		res.status(200).render('book/list', { js, css, books, pager })
 	}
 	catch(err) {
 		next(error(err))
