@@ -1,4 +1,6 @@
 # Logs
+storages
+storages-remove
 logs
 *.log
 npm-debug.log*
