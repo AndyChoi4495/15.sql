@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const { error, relPath } = require('../../modules/util')
+const createError = require('http-errors')
+const { relPath } = require('../../modules/util')
 const { pool } = require('../../modules/mysql-init')
 const { NO_EXIST } = require('../../modules/lang-init')
 
@@ -25,6 +26,8 @@ router.get('/:idx', async (req, res, next) => {
 		LEFT JOIN files F ON B.idx = F.fidx AND F.fieldname = 'C' AND F.status > '0'
 		LEFT JOIN files F2 ON B.idx = F2.fidx AND F2.fieldname = 'U' AND F2.status > '0'
 		WHERE B.idx=?`
+
+		
 		const values = [req.params.idx]
 		const [[book]] = await pool.execute(sql, values)
 
@@ -35,10 +38,10 @@ router.get('/:idx', async (req, res, next) => {
 			book.upfile = book.ori2 ? { ori: book.ori2, idx: book.fid2 } : null
 			res.status(200).render('book/form', { css, js, book })
 		}
-		else  next(error(400, NO_EXIST))
+		else  next(CreateError(400, NO_EXIST))
 	}
 	catch(err) {
-		next(error(500, err))
+		next(createError(err))
 	}
 })
 

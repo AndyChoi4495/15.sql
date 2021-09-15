@@ -4,16 +4,14 @@ const router = express.Router()
 const { error, moveFile } = require('../../../modules/util')
 const { pool } = require('../../../modules/mysql-init')
 
-/* 
-1. 실제 파일을 옮긴다.
-2. files의 레코드를 status = '0' 교체한다. 
-*/
-router.delete('/', async (req, res, next) => {
+router.delete('/:idx', async (req, res, next) => {
 	try {
-		sql = "UPDATE files SET status='0' WHERE idx = " + req.query.idx
+		sql = "UPDATE files SET status='0' WHERE idx = " + req.params.idx
+		console.log(sql)
 		await pool.execute(sql)
 	
-		sql = "SELECT savename FROM files WHERE idx = " + req.query.idx
+		sql = "SELECT savename FROM files WHERE idx = " + req.params.idx
+		console.log(sql)
 		const [rs] = await pool.execute(sql)
 	
 		for(let { savename } of rs) {
@@ -23,7 +21,7 @@ router.delete('/', async (req, res, next) => {
 	}
 	catch(err) {
 		res.status(500).json(err)
-	}	
+	}
 })
 
 
