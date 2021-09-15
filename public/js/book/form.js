@@ -31,3 +31,4 @@ function onRemoveFile(e) {
 		console.log(err.response);
 	}
 }
+
