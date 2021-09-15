@@ -26,8 +26,10 @@ function onRemoveFile(e) {
 	function onSucess(r) {
 		if(r.data.code == 200) parent.remove();
 	}
+	
 	function onError(err) {
 		console.log(err);
 		console.log(err.response);
 	}
 }
+
