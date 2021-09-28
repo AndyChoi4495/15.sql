@@ -1,9 +1,22 @@
 const LocalStategy = require('passport-local').Strategy
-const { pool } = require('../modules/mysql-init')
+const { loginUser } = require('../modules/auth')
 
-const cb = () => {
-	
+const cb = async (userid, passwd, done) => {
+	try {
+		const { success, user } = await loginUser(userid, passwd)
+		if(success) done(null, user)
+		else done(null, false, '아이디와 패스워드를 확인하세요.')
+	}
+	catch(err) {
+		done(err)
+	}
 }
-const localStategy = new LocalStategy({}, cb)
+
+const fields = {
+	usernameField: 'userid',
+	passwordField: 'passwd',
+}
+
+const localStategy = new LocalStategy(fields, cb)
 
 module.exports = (passport) => passport.use(localStategy)

@@ -3,6 +3,8 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const path = require('path')
+const passport = require('passport')
+const passportModule = require('./passport')
 
 const method = require('./middlewares/method-mw')
 const logger = require('./middlewares/morgan-mw')
@@ -26,6 +28,15 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(method())
 app.use(session(app))
+
+
+
+/**************** passport ****************/
+passportModule(passport)
+app.use(passport.initialize())
+app.use(passport.sesstion())
+
+/***************** locals *****************/
 app.use(locals)
 
 
