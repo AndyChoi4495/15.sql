@@ -7,9 +7,8 @@ module.exports = (error, req, res, next) => {
 		err.desc += '<b>STATE:</b> ' + error.sqlState + '<br>'
 	}
 	else {
-		err.message = error.message
 		err.desc = '서버 에러입니다. 관리자에게 문의하세요.'
-		switch(err.status) {
+		switch(error.status) {
 			case 400:
 				err.desc = '요청이 잘못되었습니다.'
 				break;
