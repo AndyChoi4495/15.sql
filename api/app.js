@@ -2,9 +2,7 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
-const path = require('path')
 
-const logger = require('./middlewares/morgan-mw')
 
 
 /*************** server init **************/
@@ -17,6 +15,7 @@ app.use(express.urlencoded({ extended: false }))
 
 
 /*************** logger init **************/
+const logger = require('./middlewares/morgan-mw')
 app.use(logger)
 
 
