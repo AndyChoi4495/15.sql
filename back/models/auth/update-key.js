@@ -17,4 +17,20 @@ const updateKey = async (idx) => {
 	}
 }
 
-module.exports = { updateKey }
+const updateDomain = async (domain, fidx) => {
+	try {
+		const saveDomain = domain
+		.trim()
+		.split('\r\n')
+		.map(v => v.trim())
+		.filter(v => v)
+		let sql = " UPDATE users_api SET domain=? WHERE fidx=? "
+		let [rs] = await pool.execute(sql, [saveDomain.join(','), fidx])
+		return rs.affectedRows === 1
+	}
+	catch(err) {
+		throw new Error(err)
+	}
+}
+
+module.exports = { updateKey, updateDomain }
